@@ -1,16 +1,42 @@
-{
+/*{
 	"compilerOptions": {
 		"target": "es5",
+		"lib": ["esnext", "dom"],
 		"module": "esnext",
 		"moduleResolution": "node",
 		"jsx": "react-jsx",
-		"strict": true,
+    "allowJs": true,
 		"esModuleInterop": true,
-		"skipLibCheck": true,
+    "isolatedModules": true,
+    "noEmit": true,
 		"resolveJsonModule": true,
-		"lib": ["esnext", "dom"],
+		"skipLibCheck": true,
+		"strict": true,
+		"strictNullChecks": false,
 		"baseUrl": ".",
 	},
-	"include": ["src/**/*.ts", "src/**/*.tsx"],
+	"include": ["", ""],
 	"exclude": ["node_modules"]
+}*/
+{
+	"compilerOptions": {
+		"target": "es6",
+		"lib": [
+			"esnext",
+			"dom",
+			"dom.iterable"
+		],
+		"module": "esnext",
+		"moduleResolution": "node",
+		"jsx": "react-jsx",
+		"jsxImportSource": "@emotion/react",
+		"allowJs": true,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"strictNullChecks": false,
+	}
 }
