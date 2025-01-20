@@ -1,10 +1,8 @@
 // packages
 import React from 'react';
 import styled from '@emotion/styled';
-// own
-import { Theme, useTheme } from '../../theme';
 
-interface BaseStyleProps {
+export interface BaseStyleProps {
 	p?: string; pt?: string; pb?: string; pl?: string; pr?: string; px?: string; py?: string; // padding
 	m?: string; mt?: string; mb?: string; ml?: string; mr?: string; mx?: string; my?: string; // margin
 	w?: string; minW?: string; maxW?: string; // width
@@ -33,18 +31,8 @@ export const BaseStyle = styled.div<{ /*theme: Theme;*/ props: BaseStyleProps }>
 	display: ${({ props }) => props.display && props.display};
 `;
 
-export interface BaseProps extends BaseStyleProps {
+export interface BaseProps {
 	as?: any;
 	className?: string,
 	children: React.ReactNode;
 }
-
-const LayoutComponent = (props: BaseProps) => {
-	const { theme } = useTheme();
-
-	return (
-		<BaseStyle as={props.as || 'div'} className={props.className} theme={theme} props={props}>{props.children}</BaseStyle>
-	);
-}
-
-export default LayoutComponent;

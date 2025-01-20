@@ -2,7 +2,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from '../theme';
-import { Box, Flex } from '../components/layout';
+import { Box, Center, Container, Divider, Flex, Stack } from '../components/layout';
 import { Breadcrumb, Stepper } from '../components/navigation';
 import { Checkbox, CheckboxGroup } from '../components/toggle';
 
@@ -28,11 +28,36 @@ const DemoApp: React.FC = () => {
 						<Stepper.Item onClick={() => alert('hi')} />
 						<Stepper.Item onClick={() => alert('hi2')} />
 					</Stepper>
-					<Flex className='l-flex' direction='column' w='100%' h='50%'>
-						<Box w='48px' h='48px'>Hi</Box>
-						<Box w='48px' h='48px'>Hi</Box>
-						<Box w='48px' h='48px'>Hi</Box>
-						Hi
+					<hr/>
+					<b>STACK</b>
+					<Stack gap='4px' divider={<Divider isVertical />}>
+						<div>SAS1</div>
+						<div>SAS2</div>
+						<div>SAS2</div>
+						<div>SAS2</div>
+					</Stack>
+					<hr/>
+					<b>DIVIDER</b>
+					<Divider />
+					<Divider text='Divider text' />
+					<Flex>
+						Text 1
+						<Divider isVertical />
+						Text 2
+						<Divider isVertical />
+						Text 3
+					</Flex>
+					<hr/>
+					<b>CONTAINER</b>
+					<Container>
+						<Box bg='#e4e4e7'>Container box content</Box>
+					</Container>
+					<hr/>
+					<b>FLEX & CENTER/BOX</b>
+					<Flex className='demo-l-flex' display='block' direction='column' w='100%' h='50%'>
+						<Center className='demo-c-center' p='8px' w='100px' h='100px' bgColor='salmon' fontColor='white' round='8px'>Centered 1</Center>
+						<Box className='demo-c-box' w='48px' h='48px'>Box 2</Box>
+						<Box className='demo-c-box' w='48px' h='48px'>Box 3</Box>
 					</Flex>
 				</div>
 			</ThemeProvider>

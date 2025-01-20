@@ -2,59 +2,48 @@
 import React from 'react';
 import styled from '@emotion/styled';
 // own
-import { BaseProps, BaseStyle } from './base';
+import { BaseProps, BaseStyle, BaseStyleProps } from './base';
+import { Utils } from '../../utils/Utils';
 
-// extends base
-// base props used:
-// 			display: flex
-// props:
-// 			direction
-// 			align
-// 			justify
-// 			wrap
-// 			gap
-// 			gapX
-// 			gapY
-// 			basis
-// 			grow
-// 			shrink
+const FLEX_ENUMS = [
+	{ key: 'display', values: ['flex', 'inline-flex'] },
+	{ key: 'direction', values: ['row', 'column', 'row-reverse', 'column-reverse'] },
+	{ key: 'align', values: ['start', 'center', 'end', 'baseline', 'stretch'] },
+	{ key: 'justify', values: ['start', 'center', 'end', 'between', 'around', 'evenly', 'stretch'] },
+	{ key: 'wrap', values: ['nowrap', 'wrap', 'wrap-reverse'] },
+];
 
-
-interface FlexStyleProps extends BaseProps {
-	display?: 'flex' | 'inline-flex';
-	direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
-	align?: 'start' | 'center' | 'end' | 'baseline' | 'stretch';
-	justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly' | 'stretch';
-	wrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
-	gap?: string;
-	gapX?: string;
-	gapY?: string;
-	basis?: string;
-	grow?: string;
-	shrink?: string;
+export interface FlexStyleProps extends BaseStyleProps {
+	display?: string; direction?: string;
+	align?: string; justify?: string; wrap?: string;
+	gap?: string; colGap?: string; rowGap?: string;
+	basis?: string; grow?: string; shrink?: string;
 }
 
-const FlexStyle = styled(BaseStyle)<{ /*theme: Theme;*/ props: FlexStyleProps }>`
-	display: ${({ props }) => props.display ? props.display : 'flex'};
-	flex-direction: ${({ props }) => props.direction && props.direction};
-	align-items: ${({ props }) => props.align && props.align};
-	justify-content: ${({ props }) => props.justify && props.justify};
-	flex-wrap: ${({ props }) => props.wrap && props.wrap};
+const validateEnums = (field: string, value: string): boolean => {
+	const item = Utils.getFromIndex(FLEX_ENUMS, 'key', field);
+	return item.values.includes(value);
+}
+
+const FlexStyle = styled(BaseStyle) <{ /*theme: Theme;*/ props: FlexStyleProps }>`
+	display: ${({ props }) => (validateEnums('display', props.display) ? props.display : 'flex')};
+	flex-direction: ${({ props }) => (validateEnums('direction', props.direction) && props.direction)};
+	align-items: ${({ props }) => (validateEnums('align', props.align) && props.align)};
+	justify-content: ${({ props }) => (validateEnums('justify', props.justify) && props.justify)};
+	flex-wrap: ${({ props }) => (validateEnums('wrap', props.wrap) && props.wrap)};
 	gap: ${({ props }) => props.gap && props.gap};
-	column-gap: ${({ props }) => props.gapX && props.gapX};
-	row-gap: ${({ props }) => props.gapY && props.gapY};
+	column-gap: ${({ props }) => props.colGap && props.colGap};
+	row-gap: ${({ props }) => props.rowGap && props.rowGap};
 	flex-grow: ${({ props }) => props.grow && props.grow};
 	flex-shrink: ${({ props }) => props.shrink && props.shrink};
 `;
 
-
-export interface FlexProps extends FlexStyleProps {
-	
-}
-
+export interface FlexProps extends FlexStyleProps, BaseProps { }
 export const Flex = (props: FlexProps) => {
 	return (
-		<FlexStyle props={props}>{props.children}</FlexStyle>
+		<FlexStyle as={props.as || 'div'} className={props.className} props={props}>
+			{props.children}
+		</FlexStyle>
 	);
 }
 
