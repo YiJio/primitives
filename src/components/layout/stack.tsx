@@ -1,9 +1,13 @@
 // packages
 import React, { Children } from 'react';
 import { css } from '@emotion/react';
-// own
+// types
+import { BaseProps, BaseStyledFlexProps } from '../types';
+// bases
+import { Prim } from '../bases';
 
 interface StackItemProps {
+	// parent props
 	classNameFromParent?: string;
 	childrenFromParent: React.ReactNode;
 }
@@ -20,36 +24,31 @@ const StackItem = ({ classNameFromParent, childrenFromParent }: StackItemProps) 
 	);
 }
 
-export interface StackProps {
-	className?: string;
+export interface StackProps extends BaseStyledFlexProps, BaseProps {
+	// user props
 	itemClassName?: string;
 	direction?: string;
-	wrap?: boolean;
-	gap?: string;
-	colGap?: string;
-	rowGap?: string;
 	divider?: React.ReactNode;
-	children: React.ReactNode;
 }
 
-export const Stack = ({ className, itemClassName, direction, wrap, gap, colGap, rowGap, divider, children }: StackProps) => {
-	const childrenCount = Children.count(children);
-	const childrenArray = Children.toArray(children);
+export const Stack = ({ className, itemClassName, direction, wrap = 'wrap', gap = '8px', colGap, rowGap, divider, ...props }: StackProps) => {
+	const childrenCount = Children.count(props.children);
+	const childrenArray = Children.toArray(props.children);
 
 	const stackStyles = css`
 		display:flex; flex-direction:${direction === 'vertical' ? 'column' : 'row'}; flex-wrap:${wrap ? 'wrap' : ''}; gap:${gap || '8px'}; column-gap:${colGap}; row-gap:${rowGap};
 	`;
 
 	return (
-		<div className={`l-stack${className ? ` ${className}` : ''}`} css={stackStyles}>
+		<Prim className={`l-stack${className ? ` ${className}` : ''}`} props={{ display: 'flex', direction: direction === 'vertical' ? 'column' : 'row', wrap, gap, colGap, rowGap }}>
 			{childrenArray.map((child, index) => {
 				const isLast = index === childrenCount - 1;
-				return (<>
-					<StackItem key={index} classNameFromParent={itemClassName} childrenFromParent={child} />
+				return (<React.Fragment key={index}>
+					<StackItem classNameFromParent={itemClassName} childrenFromParent={child} />
 					{!isLast && divider}
-				</>);
+				</React.Fragment>);
 			})}
-		</div>
+		</Prim>
 	);
 }
 

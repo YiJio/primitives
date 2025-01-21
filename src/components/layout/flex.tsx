@@ -1,8 +1,8 @@
-// packages
+/*// packages
 import React from 'react';
 import styled from '@emotion/styled';
 // own
-import { BaseProps, BaseStyle, BaseStyleProps } from './base';
+import { BaseProps, BaseStyle, BaseStyleProps } from '../bases/base';
 import { Utils } from '../../utils/Utils';
 
 const FLEX_ENUMS = [
@@ -25,7 +25,7 @@ const validateEnums = (field: string, value: string): boolean => {
 	return item.values.includes(value);
 }
 
-const FlexStyle = styled(BaseStyle) <{ /*theme: Theme;*/ props: FlexStyleProps }>`
+const FlexStyle = styled(BaseStyle) <{ props: FlexStyleProps }>`
 	display: ${({ props }) => (validateEnums('display', props.display) ? props.display : 'flex')};
 	flex-direction: ${({ props }) => (validateEnums('direction', props.direction) && props.direction)};
 	align-items: ${({ props }) => (validateEnums('align', props.align) && props.align)};
@@ -47,4 +47,4 @@ export const Flex = (props: FlexProps) => {
 	);
 }
 
-Flex.displayName = 'Flex';
+Flex.displayName = 'Flex';*/

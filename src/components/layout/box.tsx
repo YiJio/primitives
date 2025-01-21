@@ -1,22 +1,23 @@
 // packages
 import React from 'react';
 import styled from '@emotion/styled';
-// own
+import { css } from '@emotion/react';
+// theme
 import { useTheme } from '../../theme';
-import { BaseProps } from './base';
-import { BaseAppearanceStyle, BaseAppearanceStyleProps } from './base-appearance';
+// types
+import { BaseStyleProps } from '../types';
+// bases
+import { Prim } from '../bases';
 
-export interface BoxStyleProps extends BaseAppearanceStyleProps {}
-export const BoxStyle = styled(BaseAppearanceStyle)<{ /*theme: Theme;*/ props: BoxStyleProps }>``;
+export interface BoxProps extends BaseStyleProps { }
 
-export interface BoxProps extends BoxStyleProps, BaseProps {}
 export const Box = (props: BoxProps) => {
 	const { theme } = useTheme();
 
 	return (
-		<BoxStyle as={props.as || 'div'} className={props.className} props={props}>
+		<Prim as={props.as || 'div'} className={props.className} props={props}>
 			{props.children}
-		</BoxStyle>
+		</Prim>
 	);
 }
 

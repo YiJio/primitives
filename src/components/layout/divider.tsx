@@ -1,35 +1,36 @@
 // packages
 import React from 'react';
 import { css } from '@emotion/react';
-// own
+// types
+import { BaseProps } from '../types';
 
-export interface DividerProps {
-	className?: string;
+export interface DividerProps extends BaseProps {
+	// user props
 	textClassName?: string;
 	m?: string;
-	isVertical?: boolean;
-	text?: string;
+	content?: string;
+	direction?: string;
 }
 
-export const Divider = ({ className, textClassName, m, isVertical, text }: DividerProps) => {
+export const Divider = ({ className, textClassName, m, content, direction = 'horizontal' }: DividerProps) => {
 
-	const dividerStyles = css`background:#e5e5e5;`;
-	const dividerHStyles = css`height:1px; margin:${m || '24px'} 0; width:100%;`;
-	const dividerVStyles = css`margin:0 ${m || '12px'}; width:1px; min-height:1em; height:100%; display:inline-block; vertical-align:middle;`;
-	const dividerWithTextStyles = css`
-		display:flex; flex-direction:row; align-items:center; background:transparent;
-		&:before, &:after { content:''; flex:1 1 auto; border-top:1px solid var(--color-gray-2); border-top:1px solid #e5e5e5; }
+	const isVertical = direction === 'vertical';
+
+	const divider = css`
+		background:${content && !isVertical ? 'transparent' : '#e5e5e5'}; margin:${m ? m : isVertical ? '0 12px' : '24px 0'}; width:${isVertical ? '1px' : '100%'}; height:${isVertical ? '100%' : '1px'}; min-height:${isVertical && '1em'}; display:${isVertical ? 'inline-block' : content ? 'flex' : ''}; vertical-align:${isVertical && 'middle'};
+		${content && !isVertical && `flex-direction:row; align-items:center;`}
+		${content && !isVertical && `&:before, &:after { content:''; flex:1 1 auto; border-top:1px solid var(--color-gray-2); border-top:1px solid #e5e5e5; }`}
 	`;
-	const textStyles = css`flex:0 0 auto; padding:0 12px;`;
+	const text = css`flex:0 0 auto; padding:0 12px;`;
 
 	return (<>
-		{isVertical
-			? <div className={`l-divider l-divider--vertical${className ? ` ${className}` : ''}`} css={[dividerStyles, dividerVStyles]} />
-			: text
-				? <div className={`l-divider l-divider--horizontal l-divider--with-text${className ? ` ${className}` : ''}`} css={[dividerStyles, dividerHStyles, dividerWithTextStyles]}>
-					<span className={`l-divider__text${textClassName ? ` ${textClassName}` : ''}`} css={textStyles}>{text}</span>
+		{direction === 'vertical'
+			? <div className={`l-divider l-divider--vertical${className ? ` ${className}` : ''}`} css={divider} />
+			: content
+				? <div className={`l-divider l-divider--horizontal l-divider--with-text${className ? ` ${className}` : ''}`} css={divider}>
+					<span className={`l-divider__text${textClassName ? ` ${textClassName}` : ''}`} css={text}>{content}</span>
 				</div>
-				: <div className={`l-divider l-divider--horizontal${className ? ` ${className}` : ''}`} css={[dividerStyles, dividerHStyles]} />}
+				: <div className={`l-divider l-divider--horizontal${className ? ` ${className}` : ''}`} css={divider} />}
 	</>);
 }
 

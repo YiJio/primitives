@@ -1,23 +1,23 @@
 // packages
 import React from 'react';
 import { css } from '@emotion/react';
-// own
+// types
+import { BaseProps } from '../types';
 
-export interface ContainerProps {
-	className?: string;
+export interface ContainerProps extends BaseProps {
+	// user props
 	maxW?: string;
-	children: React.ReactNode;
 }
 
-export const Container = ({ className, maxW, children }: ContainerProps) => {
+export const Container = ({ className, maxW, ...props }: ContainerProps) => {
 
-	const containerStyles = css`
+	const container = css`
 		position:relative; padding:8px; margin:auto; width:100%; max-width:${maxW || '100%'};
 	`;
 
 	return (
-		<div className={`l-container${className ? ` ${className}` : ''}`} css={containerStyles}>
-			{children}
+		<div className={`l-container${className ? ` ${className}` : ''}`} css={container}>
+			{props.children}
 		</div>
 	);
 }

@@ -1,6 +1,6 @@
 // packages
 import React, { createContext, useContext, useReducer } from 'react';
-import { Theme, defaultTheme } from './theme';
+import { ColorKeys, Theme, defaultTheme } from './theme';
 
 interface ThemeState {
 	theme: Theme;
@@ -14,6 +14,7 @@ interface ThemeAction {
 type ThemeContextType = {
 	theme: Theme;
 	updateTheme: (theme: Theme) => void;
+	isValidColorSchemeKey: (key: string, theme: Theme) => boolean;
 }
 
 const themeReducer = (state: ThemeState, action: ThemeAction): ThemeState => {
@@ -34,8 +35,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode, initialTheme?:
 		dispatch({ type: 'UPDATE_THEME', payload: newTheme });
 	};
 
+	const isValidColorSchemeKey = (key: string, theme: Theme): key is ColorKeys => key in theme.colors;
+
 	return (
-		<ThemeContext.Provider value={{ theme: state.theme, updateTheme }}>
+		<ThemeContext.Provider value={{ theme: state.theme, updateTheme, isValidColorSchemeKey }}>
 			{children}
 		</ThemeContext.Provider>
 	);

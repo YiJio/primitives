@@ -1,11 +1,15 @@
 // packages
 import React from 'react';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 // own
 import { useTheme } from '../../theme';
-import { BaseProps } from './base';
-import { BaseAppearanceStyle, BaseAppearanceStyleProps } from './base-appearance';
+// utils
 import { Utils } from '../../utils/Utils';
+// types
+import { BaseStyleProps } from '../types';
+// bases
+import { Prim } from '../bases';
 
 const CENTER_ENUMS = [
 	{ key: 'display', values: ['flex', 'inline-flex'] },
@@ -16,21 +20,18 @@ const validateEnums = (field: string, value: string): boolean => {
 	return item.values.includes(value);
 }
 
-export interface CenterStyleProps extends BaseAppearanceStyleProps {}
+export interface CenterProps extends BaseStyleProps { }
 
-export const CenterStyle = styled(BaseAppearanceStyle)<{ /*theme: Theme;*/ props: CenterStyleProps }>`
-	display: ${({ props }) => (validateEnums('display', props.display) ? props.display : 'flex')};
-	align-items:center; justify-content:center;
-`;
-
-export interface CenterProps extends CenterStyleProps, BaseProps {}
 export const Center = (props: CenterProps) => {
 	const { theme } = useTheme();
 
+	const center = css`display: ${validateEnums('display', props.display) ? props.display : 'flex'};
+	align-items:center; justify-content:center;`;
+
 	return (
-		<CenterStyle as={props.as || 'div'} className={props.className} props={props}>
+		<Prim as={props.as || 'div'} className={props.className} props={props} css={center}>
 			{props.children}
-		</CenterStyle>
+		</Prim>
 	);
 }
 
