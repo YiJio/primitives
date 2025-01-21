@@ -1,26 +1,31 @@
 // packages
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
+import babel from '@rollup/plugin-babel';
+import path, { resolve } from 'path';
 
 export default defineConfig({
-  plugins: [react()],
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'primitives',
-      fileName: (format) => `primitives.${format}.js`,
+  plugins: [react({
+    jsxImportSource: '@emotion/react',
+    babel: {
+      plugins: ['@emotion/babel-plugin'],
     },
+  })],
+  resolve: {
+    alias: {
+      '@components': path.resolve(__dirname, './src/components'),
+      '@styles': path.resolve(__dirname, './src/styles'),
+    },
+  },
+  build: {
     rollupOptions: {
-      external: ['react', 'react-dom', '@emotion/react', '@emotion/styled'],
-      output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-          '@emotion/react': 'emptionReact',
-          '@emotion/styled': 'emotionStyled',
-        },
-      },
+      plugins: [
+        babel({
+          babelHelpers: 'runtime',
+          exclude: 'node_modules/**',
+          plugins: ['@emotion/babel-plugin']
+        }),
+      ],
     },
   },
 });
